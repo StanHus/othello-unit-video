@@ -1,0 +1,5 @@
+# Python packages for the tools (Python 3.9 or later). ffmpeg, Node 18+ and Chrome or Chromium are needed as well.
+requests            # image generation and finishing (REST)
+google-genai        # TTS takes, no-hint transcription, blind audio judging
+Pillow              # web copies, plate sizes, sample media
+openai-whisper      # word alignment and the caption timing check (optional; CPU is enough)

@@ -1,0 +1,10 @@
+{
+ "about": "Storyboard for tools/film/render-narrated.js --storyboard: one shot per picture change. The first shot of a scene opens it; every later shot cuts 0.12 s before its spoken_anchor, which must occur exactly once in that scene's spoken_text_exact. An art_path is an absolute path or a file name found in --art-dir (default assets/paintings, which holds the three paintings named here); --art-map <file>, a JSON file of {\"<shot>\": \"<image path>\"} keyed by shot number, points a shot at another file, such as a plate built elsewhere. Give every picture its own file name: the renderer frames stills by file name. A plate that builds up gets one shot per step, on the phrase that brings its items in: 03-checklist-2.png and 03-checklist-4.png are two steps of the checklist plate that tools/plates/plates.example.json builds, whose labels stand in for the words a narration speaks. These shots belong to kit/templates/script/manifest.example.json.",
+ "shots": [
+  {"shot": 1, "scene": 1, "art_path": "venice-establishing.jpg", "visual_caption": "Venice at dusk", "spoken_anchor": "This is sample narration"},
+  {"shot": 2, "scene": 1, "art_path": "03-checklist-2.png", "visual_caption": "Checklist plate: the first two items", "spoken_anchor": "the water and the domes"},
+  {"shot": 3, "scene": 1, "art_path": "03-checklist-4.png", "visual_caption": "Checklist plate: all four items", "spoken_anchor": "then the gondolas and their lanterns"},
+  {"shot": 4, "scene": 2, "art_path": "cyprus-dawn.jpg", "visual_caption": "The fortress at first light", "spoken_anchor": "This is sample narration"},
+  {"shot": 5, "scene": 2, "art_path": "fortress-gate.jpg", "visual_caption": "Othello at the fortress gate", "spoken_anchor": "Othello walks alone"}
+ ]
+}

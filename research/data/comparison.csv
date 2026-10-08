@@ -1,0 +1,4 @@
+version,built,runtime_s,shots,mean_shot_s,carries,partly,competes,carries_pct_runtime,partly_pct_runtime,competes_pct_runtime,frames_with_text,text_items_median,text_items_max,edge_density_median_pct,edge_density_min_pct,edge_density_max_pct,speech_span_s,words_per_minute,script_fidelity_pct,asr_words_agreeing,asr_reference_words,asr_agreement_pct,context_areas_spoken_of_7,checks,own_words_steps,own_words_marked_by_ai,continues_only_after_right_answer,seek_past_open_check
+stills_v5,this project,271.0,22,12.3,12,6,4,41,34,25,0,0.0,0,7.0,3.9,10.1,263.6,99,100.0,432,436,99.1,7,6,1,0,yes,clamped to the open check
+animated,elsewhere,208.5,36,5.8,25,6,5,51,25,24,3,0.0,2,4.7,2.1,6.5,204.0,128,100.0,429,436,98.4,7,4,0,0,yes,blocked
+3d_code,elsewhere,161.4,19,8.5,18,1,0,98,2,0,18,9,27,2.1,0.7,3.2,159.7,163,100.0,427,436,97.9,7,3,2,2,no,blocked

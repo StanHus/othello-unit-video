@@ -1,0 +1,114 @@
+{
+ "about": "An AI answer marker inside an existing Grade 9 reading lesson on Othello 1.1 (built elsewhere), tested through its HTTP endpoint on 7 October 2026; a later run repeated three of the five misses. Aggregates only: no answers, rubric text or marker replies.",
+ "test_set": {
+  "answers": 63,
+  "checks": 7,
+  "author": "synthetic answers in Grade 9 student voice",
+  "groups": {
+   "should_complete_their_check": 22,
+   "partial": 13,
+   "wrong": 10,
+   "known_misreadings": 10,
+   "arguable_criteria_not_scored": 5,
+   "prompt_injection": 3
+  },
+  "should_complete_by_wording": {
+   "plain": 9,
+   "informal": 6,
+   "slang": 1,
+   "misspelled": 2,
+   "non_native": 1,
+   "buried_in_a_long_answer": 2,
+   "full_paragraph": 1
+  },
+  "sent_three_times": 10,
+  "sent_as_first_attempts": 62
+ },
+ "run": {
+  "calls": 91,
+  "calls_with_no_response_in_40s_resent": 9,
+  "answers_with_a_verdict": 63,
+  "response_time_s": {
+   "median": 3.44,
+   "max": 7.47
+  }
+ },
+ "verdicts": {
+  "exact_on_every_scored_criterion": 58,
+  "criteria": {
+   "met_correctly": 63,
+   "not_met_correctly": 54,
+   "wrongly_met": 2,
+   "wrongly_not_met": 3
+  },
+  "false_passes": 1,
+  "false_pass_of": 41,
+  "false_holds": 3,
+  "false_hold_of": 22,
+  "known_misreadings_recognised": 10,
+  "known_misreadings": 10,
+  "injections_marked_off_task": 3,
+  "injections": 3,
+  "same_verdict_on_all_three_runs": 9,
+  "repeated_answers": 10
+ },
+ "misses": [
+  {
+   "kind": "false pass",
+   "what": "a wrong paragraph met every criterion"
+  },
+  {
+   "kind": "false hold",
+   "what": "an informal right answer; held back in 3 of 4 calls"
+  },
+  {
+   "kind": "false hold",
+   "what": "a right answer in paraphrase; one criterion not credited"
+  },
+  {
+   "kind": "false hold",
+   "what": "a second right paraphrase on the same check; one criterion not credited"
+  },
+  {
+   "kind": "wrongly met criterion",
+   "what": "a wrong answer was credited on one criterion"
+  }
+ ],
+ "replies": {
+  "verdicts_with_the_marker_s_own_reply": 42,
+  "words_min": 15,
+  "words_max": 36,
+  "words_median": 24.0,
+  "with_an_exclamation_mark": 0,
+  "flagged_by_keyword_heuristic_as_possible_give_away": 10,
+  "found_on_reading_to_hand_over_a_missing_answer": 0
+ },
+ "later_run": {
+  "about": "a later run repeated three of the five misses",
+  "misses_sent_again": 5,
+  "same_miss_again": 3
+ },
+ "second_marker": {
+  "about": "the marker of a 3D lesson build for the same unit",
+  "date": "2026-10-07",
+  "answers": 48,
+  "reading_checks": 4,
+  "runs": 2,
+  "minutes_apart": 7,
+  "right_answers_accepted": [
+   14,
+   15
+  ],
+  "right_answers": 15,
+  "wrong_or_partial_kept_from_passing": [
+   28,
+   28
+  ],
+  "wrong_or_partial": 28,
+  "repeated_answers_stable": [
+   8,
+   8
+  ],
+  "repeated_answers": 8
+ }
+}

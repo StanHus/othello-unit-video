@@ -1,0 +1,10 @@
+{
+ "about": "Rubric for tools/narration/judge_takes.py --rubric: the judges' brief, and the criteria each take is scored on from 1 to 10, each saying what a 10 means. The tool always adds its own exact-words check. The judges assist a listen; a person chooses the voice.",
+ "brief": "You are choosing the narrator of a short film that opens a unit on a play, for students aged 14 to 15. Every take reads the same passage. Judge only what you hear.",
+ "criteria": {
+  "intelligibility": "every word is clear at normal listening volume, names included",
+  "pacing": "brisk enough for the film's length limit without hurrying any word; pauses help meaning and none drag",
+  "naturalness": "no robotic prosody, glitches, clipped words or audio artefacts",
+  "register": "the delivery suits the passage and the age group, without exaggeration or character voices"
+ }
+}

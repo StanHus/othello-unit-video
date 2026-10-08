@@ -1,0 +1,39 @@
+{
+ "about": "Briefs for tools/art/generate_paintings.py --briefs. The prompt is the style, then the bible entries of the characters a painting shows (chars), then its subject; refs are reference paintings by file stem, looked up in --refs-dir. Brief each painting to show what its line is about and, where the line allows, an inference a student can find. These two briefs are from assets/painting-briefs.json, the full set behind this repository's paintings.",
+ "style": "Paint in EXACTLY the same style as the attached reference paintings: a mature, richly detailed, painterly illustrated-book look with warm lantern light against cool dusk and night blues, fine costume embroidery, Venetian Renaissance architecture, dense believable background activity that rewards close looking. No text, lettering, speech balloons, borders, logos or watermarks. No gore, no depicted death, no weapons raised at anyone. Faces readable and dignified. Horizontal 16:9 composition with the main action clear.",
+ "bible": {
+  "Othello": "Othello: a Black man in his forties, the Venetian general; close-cropped dark hair, short beard flecked with grey, strong calm face; deep navy-black cloak and doublet with gold embroidery and a gold collar.",
+  "Iago": "Iago: a lean man about thirty-five, dark hair, stubble, a small scar through his left eyebrow, watchful narrow eyes; olive-green and brown hooded cloak over a black leather doublet. As the ensign he carries the general's red-and-gold banner.",
+  "Desdemona": "Desdemona: a young Venetian noblewoman with long auburn-red hair worn up with pearls, pale skin, cream-and-gold brocade gown with full sleeves.",
+  "Cassio": "Cassio: a handsome young officer with light auburn-brown hair, clean-shaven, in a blue doublet with a leather belt and a sword; the lieutenant."
+ },
+ "paintings": [
+  {
+   "id": "honest-iago",
+   "file": "honest-iago.jpg",
+   "chars": [
+    "Othello",
+    "Iago",
+    "Desdemona",
+    "Cassio"
+   ],
+   "refs": [
+    "venice-ranks",
+    "venice-love"
+   ],
+   "subject": "A bright Venetian courtyard in morning sun: Othello clasps Iago's shoulder with open trust, smiling, as he hands Desdemona into Iago's care; Iago bows his head obediently, but his far hand behind his back is clenched; Cassio stands a few paces off with the sword at his side; soldiers load a galley at the quay beyond. Dramatic irony shown in posture only."
+  },
+  {
+   "id": "fortress-gate",
+   "file": "fortress-gate.jpg",
+   "chars": [
+    "Othello"
+   ],
+   "refs": [
+    "cyprus-dawn",
+    "venice-ranks"
+   ],
+   "subject": "Othello seen from behind, small against the huge stone gate of the Cyprus fortress at dusk, walking alone into its dark arch; his cloak and the torn banner above him both stir in the wind; an orange sliver of sunset on the sea behind. A great man entering shadow."
+  }
+ ]
+}

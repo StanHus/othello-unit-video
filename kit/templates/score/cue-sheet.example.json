@@ -1,0 +1,24 @@
+{
+ "about": "Cue sheet for tools/film/render-narrated.js --cue-sheet: per scene, in spoken order, the exact phrases the music moves on. Each phrase must occur exactly once in its scene's spoken_text_exact; its time is measured from the alignment at render. For an eight-scene film, tools/score/generate-score.js writes this file from a list of phrases per scene (--anchors with --cue-sheet); for any other scene count, write it by hand. The cue plan in tools/score/fit-score.js needs at least 4, 3, 3, 2, 3, 2, 3 and 3 anchors in scenes 1 to 8, and has no plan beyond scene 8. These anchors belong to kit/templates/script/manifest.example.json.",
+ "scenes": [
+  {
+   "scene": 1,
+   "clip_id": "vo_01",
+   "spoken_anchors": [
+    {"phrase": "This is sample narration"},
+    {"phrase": "Venice at dusk"},
+    {"phrase": "Four things fill the picture"},
+    {"phrase": "then the gondolas and their lanterns"}
+   ]
+  },
+  {
+   "scene": 2,
+   "clip_id": "vo_02",
+   "spoken_anchors": [
+    {"phrase": "This is sample narration"},
+    {"phrase": "A fortress above the sea"},
+    {"phrase": "the scene ends on a held picture"}
+   ]
+  }
+ ]
+}

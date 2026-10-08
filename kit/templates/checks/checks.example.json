@@ -1,0 +1,40 @@
+{
+ "about": "Gated checks in the player's format (player/README.md), for tools/player/build_parts.py --checks. Each check opens at the end of its scene (afterScene); build_parts.py fills in at and sceneStart from the measured timeline. say is the spoken question as shown under \"Show the words\"; ask and correct are the question and confirmation audio, and a probe's audio is its spoken follow-up, all relative to the project's player folder. A check is a single choice, or own_words (kept, never marked), then one probe (a scripted follow-up asking for a reason), then a choice: only a right choice shows Continue. Write the questions from the fixed script. A question you write stays a draft until it is explicitly approved. These checks belong to kit/templates/script/manifest.example.json.",
+ "voice": {"voice": "the voice the question audio was recorded in"},
+ "checks": [
+  {
+   "id": "check_dusk",
+   "afterScene": 1,
+   "corner": "bl",
+   "say": "What does the first scene show at dusk?",
+   "ask": "media/questions/check_dusk-ask.m4a",
+   "correct": "media/questions/check_dusk-correct.m4a",
+   "steps": [
+    {"kind": "choice", "stem": "What does the first scene show at dusk?", "answer": 0,
+     "options": ["Venice, seen across a canal", "A ship at sea", "A battlefield"],
+     "feedback": ["Yes: Venice at dusk, seen across a canal.",
+                  "Not a ship at sea. Think of the first picture.",
+                  "Not a battlefield. Think of the first picture."]}
+   ]
+  },
+  {
+   "id": "check_gate",
+   "afterScene": 2,
+   "corner": "br",
+   "say": "How does Othello seem to you at the end of this scene?",
+   "ask": "media/questions/check_gate-ask.m4a",
+   "correct": "media/questions/check_gate-correct.m4a",
+   "steps": [
+    {"kind": "own_words", "stem": "How does Othello seem to you at the end of this scene?",
+     "prompt": "Your answer is saved. It is not marked."},
+    {"kind": "probe", "stem": "What in the scene made you think so?",
+     "prompt": "Name one thing you saw or heard.", "audio": "media/questions/check_gate-probe.m4a"},
+    {"kind": "choice", "stem": "Where does Othello walk at the end of the scene?", "answer": 0,
+     "options": ["Into the fortress gate", "Onto a ship", "Into the Senate"],
+     "feedback": ["Yes: he walks alone into the fortress gate.",
+                  "Not onto a ship. Think of the last picture.",
+                  "Not into the Senate. Think of the last picture."]}
+   ]
+  }
+ ]
+}

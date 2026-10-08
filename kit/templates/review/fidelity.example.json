@@ -1,0 +1,23 @@
+{
+ "about": "The inputs of tools/review/measure_fidelity.py for three films of the same script. The tool takes flags, not this file: put each film's files in its folder, then run the command from the repository root. Score each film on the script its narration was generated from, never on a recogniser's transcript; a no-prompt Whisper word list per film only confirms that its audio reads that script. <review> is the comparison folder, <project>/review/YYYY-MM-DD-slug, with one subfolder per film.",
+ "command": "python3 -I tools/review/measure_fidelity.py --reference <project>/script/v01/manifest.json --out <review>/fidelity.json --film stills=<review>/stills/script.txt --whisper stills=<review>/stills/whisper-noprompt.json --film animated=<review>/animated/script.txt --whisper animated=<review>/animated/whisper-noprompt.json --film 3d=<review>/3d/script.txt --whisper 3d=<review>/3d/whisper-noprompt.json",
+ "flags": {
+  "--reference": "the fixed script: its recording manifest, or the script as plain text",
+  "--film NAME=PATH": "one per film: the script that film's narration was generated from, in any shape below",
+  "--whisper NAME=PATH": "optional, one per film: its no-prompt Whisper word list",
+  "--out": "the result (default fidelity.json): per film its script words, the reference words found in order and fidelity_pct, and with --whisper the words Whisper agrees on and whisper_agree_pct",
+  "--diffs": "optional: adds the word-level differences, which quote the scripts; keep that output local"
+ },
+ "script_shapes": {
+  "plain text": "a .txt file, such as <review>/stills/script.txt",
+  "recording manifest": {"scenes": [{"spoken_text_exact": "This is sample narration for the first scene."}]},
+  "segments": {"segments": [{"narration": "This is sample narration for the first scene."}]},
+  "text": {"text": "This is sample narration for the first scene."}
+ },
+ "whisper_word_list": {"words": [{"w": "This", "s": 0.5, "e": 0.7}, {"w": "is", "s": 0.7, "e": 0.8}]},
+ "notes": [
+  "Make every word list with the same whisper command, model and settings, with word timestamps and no initial prompt, and flatten its segments' words into w, s and e.",
+  "Drop the words heard after the last script word (Whisper loops phrases over music and silence), and record what was dropped.",
+  "A film with no script of its own cannot be scored this way: say so rather than score its transcript. Scored on recogniser output, one film here came out at 98.4% purely from recogniser errors (research/METHODS.md)."
+ ]
+}

@@ -1,0 +1,23 @@
+{
+ "about": "Recording manifest: the fixed script as scenes, one narration clip per scene, and the parts the film is cut into. The narration, score and film tools read it with --manifest, and tools/player/build_parts.py reads its parts with --parts. The player needs the parts list: for a film not cut into parts, give one part holding every scene, and give build_parts.py a --max at least the film's length. spoken_text_exact is the only source of words, captions included: copy it from the script word for word, never edit it here, and verify and align the narration again after any change. The sample lines below only show the shape.",
+ "title": "Sample opening",
+ "text_source": "sources/script.txt, the script as received",
+ "scenes": [
+  {
+   "scene_number": 1,
+   "clip_id": "vo_01",
+   "title": "Venice",
+   "spoken_text_exact": "This is sample narration for the first scene. Venice at dusk, seen across a canal. Four things fill the picture: the water and the domes, then the gondolas and their lanterns."
+  },
+  {
+   "scene_number": 2,
+   "clip_id": "vo_02",
+   "title": "Cyprus",
+   "spoken_text_exact": "This is sample narration for the second scene. A fortress above the sea at first light. Othello walks alone into the gate, and the scene ends on a held picture."
+  }
+ ],
+ "parts": [
+  {"part": 1, "title": "Venice", "scenes": [1]},
+  {"part": 2, "title": "Cyprus", "scenes": [2]}
+ ]
+}

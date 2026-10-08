@@ -1,0 +1,206 @@
+{
+ "about": "Machine QA of the final film (v7, 7 October 2026), plus the caption-timing checks made on v1. Numbers only.",
+ "v07": {
+  "duration_s": {
+   "planned": 174.542,
+   "container": 174.542
+  },
+  "streams": {
+   "video": "h264 1600x900, 24 fps",
+   "audio": "aac 48 kHz stereo",
+   "subtitles": "mov_text, default on"
+  },
+  "loudness": {
+   "master_wav": {
+    "integrated_lufs": -16,
+    "lra_lu": 6,
+    "true_peak_dbtp": -0.9
+   },
+   "delivered_aac": {
+    "integrated_lufs": -16.1,
+    "lra_lu": 6,
+    "true_peak_dbtp": -0.9
+   },
+   "target": {
+    "integrated_lufs": -16,
+    "true_peak_dbtp_at_most": -1.0
+   },
+   "note": "true peak is 0.1 dB above the target"
+  },
+  "voice_over_ducked_music_db": [
+   {
+    "scene": 1,
+    "speech_s": 32.54,
+    "db": 15.2
+   },
+   {
+    "scene": 2,
+    "speech_s": 10.22,
+    "db": 19.3
+   },
+   {
+    "scene": 3,
+    "speech_s": 24.84,
+    "db": 14.3
+   },
+   {
+    "scene": 4,
+    "speech_s": 33.96,
+    "db": 14
+   },
+   {
+    "scene": 5,
+    "speech_s": 21.5,
+    "db": 17.1
+   },
+   {
+    "scene": 6,
+    "speech_s": 17.68,
+    "db": 17.1
+   },
+   {
+    "scene": 7,
+    "speech_s": 12.9,
+    "db": 19.4
+   },
+   {
+    "scene": 8,
+    "speech_s": 8.74,
+    "db": 15.7
+   }
+  ],
+  "narration": {
+   "words": 434,
+   "words_per_minute": 158,
+   "words_cut": 0,
+   "time_stretch": 1.0,
+   "takes_regenerated": 1,
+   "regeneration_reason": "one word heard as another on the blind check",
+   "alignment_match_min": 0.93
+  },
+  "captions": {
+   "cues": 51,
+   "max_error_vs_alignment_s": 0,
+   "lines": 73,
+   "max_line_chars": 49,
+   "text_equals_script": true
+  },
+  "final_mix_transcription": {
+   "scenes": 8,
+   "exact": 6,
+   "per_scene": [
+    {
+     "scene": 1,
+     "script_words": 88,
+     "heard_words": 88,
+     "exact": true
+    },
+    {
+     "scene": 2,
+     "script_words": 39,
+     "heard_words": 39,
+     "exact": true
+    },
+    {
+     "scene": 3,
+     "script_words": 71,
+     "heard_words": 74,
+     "exact": false
+    },
+    {
+     "scene": 4,
+     "script_words": 83,
+     "heard_words": 82,
+     "exact": false
+    },
+    {
+     "scene": 5,
+     "script_words": 62,
+     "heard_words": 62,
+     "exact": true
+    },
+    {
+     "scene": 6,
+     "script_words": 52,
+     "heard_words": 52,
+     "exact": true
+    },
+    {
+     "scene": 7,
+     "script_words": 15,
+     "heard_words": 15,
+     "exact": true
+    },
+    {
+     "scene": 8,
+     "script_words": 23,
+     "heard_words": 23,
+     "exact": true
+    }
+   ],
+   "differences": {
+    "numbers the script writes as digits and the transcriber writes as words": 3,
+    "a dropped word that a second pass and the second recogniser both heard": 1,
+    "a name spelling": 1
+   }
+  },
+  "cuts": 52,
+  "plates": 35,
+  "frame_check": {
+   "cuts_checked": 52,
+   "checks": "which picture file sits at each cut",
+   "content_changes_missed": 1
+  },
+  "parts_s": [
+   45.8,
+   61.5,
+   67.4
+  ],
+  "check_times_s": [
+   34.1,
+   71.6,
+   106.9,
+   129.7,
+   148.5,
+   162.5
+  ]
+ },
+ "v01_timing_checks": {
+  "onset_check": {
+   "cues_after_a_pause_of_0_5s_or_more": 37,
+   "median_error_s": 0.0,
+   "signed_mean_s": -0.035,
+   "worst_s": -0.769,
+   "within_0_25s": 36,
+   "worst_case": "the voice ran two sentences together"
+  },
+  "second_recogniser_on_final_mix": {
+   "tokens": 473,
+   "matched": 464,
+   "start_offset_median_s": 0.325,
+   "p90_s": 0.72,
+   "max_s": 0.904,
+   "signed_mean_s": 0.26,
+   "reading": "the recogniser's own early bias over music; captions sit on measured onsets"
+  },
+  "final_mix_transcription": {
+   "scenes": 8,
+   "exact": 6,
+   "transcriber_false_alarm": 1,
+   "not_reproducible_on_rerun": 1
+  }
+ },
+ "mix_parameters": {
+  "music_under_voice_lu": -10,
+  "duck_db": -8,
+  "voice_activity_threshold_dbfs": -42,
+  "window_ms": 20,
+  "gap_merge_s": 0.9,
+  "attack_s": 0.35,
+  "hold_s": 0.25,
+  "release_s": 1.2,
+  "cut_lead_s": 0.12,
+  "caption_start_lead_s": 0.05,
+  "caption_end_tail_s": 0.3
+ }
+}

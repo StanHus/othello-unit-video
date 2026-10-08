@@ -1,0 +1,48 @@
+{
+ "about": "Example content for build_plates.py: one plate of every type, over the paintings in assets/paintings. Labels are examples; the quotations are from the play (Folger line numbers). Replace them with words your narration speaks.",
+ "art": {
+  "venice": "../../assets/paintings/venice-establishing.jpg",
+  "couple": "../../assets/paintings/couple-and-shadow.jpg",
+  "ranks": "../../assets/paintings/venice-ranks.jpg",
+  "lieutenant": "../../assets/paintings/lieutenant-and-ensign.jpg",
+  "masks": "../../assets/paintings/iago-and-the-masks.jpg",
+  "storm": "../../assets/paintings/rampart-storm.jpg",
+  "fortress": "../../assets/paintings/cyprus-dawn.jpg"
+ },
+ "plates": [
+  {"id": "01-title", "type": "title", "background": "venice", "dim": 0.8,
+   "title": "Othello", "byline": "William Shakespeare", "note": "a tragedy in five acts"},
+  {"id": "02-arc", "type": "arc", "background": "couple",
+   "start": {"mark": "1", "text": "Start label", "ref": "act.scene"},
+   "end": {"mark": "2", "text": "End label", "ref": "act.scene"},
+   "ticks": ["Act 1", "Act 2", "Act 3", "Act 4", "Act 5"]},
+  {"id": "03-checklist", "type": "checklist", "background": "venice", "title": "Checklist title", "reveal": [0, 2, 4],
+   "items": [
+    {"name": "First item", "crop": {"art": "venice", "x": 0.4306, "y": 0.0, "h": 1.0}},
+    {"name": "Second item", "crop": {"art": "lieutenant", "x": 0.1744, "y": 0.0, "h": 1.0}},
+    {"name": "Third item", "crop": {"art": "storm", "x": 0.3198, "y": 0.0, "h": 1.0}},
+    {"name": "Fourth item", "words": ["word one", "word two", "word three"]}]},
+  {"id": "04-map", "type": "map",
+   "places": [{"name": "Venice", "lon": 12.33, "lat": 45.44, "anchor": "right", "tag": "1.1–1.3"},
+              {"name": "Cyprus", "lon": 33.35, "lat": 35.12, "anchor": "above", "tag": "2.1–5.2"}],
+   "regions": [{"text": "OTTOMAN EMPIRE", "lon": 33.0, "lat": 39.4}],
+   "route": [[12.6, 45.1], [13.9, 44.0], [15.9, 42.3], [18.5, 40.2], [19.7, 38.5], [21.1, 36.8], [23.1, 35.95], [26.4, 35.75], [29.6, 35.35], [32.2, 34.95]]},
+  {"id": "05-caption", "type": "caption", "background": "fortress", "label": "Label", "text": "a one-line caption"},
+  {"id": "06-label-card", "type": "label_card", "background": "ranks", "kicker": "Character", "name": "Othello", "reveal": [1, 2],
+   "items": [{"text": "First label", "gloss": "a short gloss"}, {"text": "Second label"}]},
+  {"id": "07-ranks", "type": "rank_ladder", "background": "lieutenant", "dim": 0.86, "title": "Ladder title", "reveal": [2, 3, 4],
+   "rungs": [{"rank": "General", "name": "Othello", "face": [0.3187, 0.1152, 0.2474]},
+             {"rank": "Lieutenant", "name": "Cassio", "face": [0.6286, 0.1563, 0.2474]},
+             {"rank": "Ensign", "name": "Iago", "face": [0.1581, 0.1986, 0.2474]}],
+   "link": {"text": "link text"}},
+  {"id": "08-quote", "type": "quote", "background": "masks", "reveal": [1, 2, 3],
+   "quote": "I am not what I am.", "ref": "Iago · 1.1.71",
+   "steps": [{"label": "Step", "text": "step text"}, {"label": "Step", "text": "step text"}],
+   "definition": {"term": "Term", "text": "a one-line definition\nin your own words"}},
+  {"id": "09-curve", "type": "curve", "background": "storm", "reveal": [1, 5],
+   "kicker": "Story shape", "title": "Rise and fall", "peak": "peak label", "fall": "fall label",
+   "causes": ["first cause", "second cause"], "end": "end label"},
+  {"id": "10-glossary", "type": "glossary", "background": "venice", "title": "Word list", "reveal": [0, 8],
+   "words": ["word one", "word two", "word three", "word four", "word five", "word six", "word seven", "word eight"]}
+ ]
+}

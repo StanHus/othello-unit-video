@@ -1,0 +1,27 @@
+{
+ "about": "The inputs of tools/review/measure_screen.py for three films of the same script. The tool takes flags and reads one folder per film under --dir, not this file: write each file below into every film's folder, then run the command from the repository root. Values are illustrative. <review> is the comparison folder, <project>/review/YYYY-MM-DD-slug; 61 is the word count of kit/templates/script/manifest.example.json.",
+ "command": "python3 -I tools/review/measure_screen.py --dir <review> --films stills,animated,3d --reference-words 61 --first-word fortress --out <review>/measures.json",
+ "flags": {
+  "--dir": "the comparison folder, with one subfolder per film",
+  "--films": "optional: the film folders to measure, comma-separated (default: every subfolder with shots.json)",
+  "--reference-words": "the fixed script's word count; each film's words a minute is this over its speech span",
+  "--first-word": "optional: report when a heard word containing this is first spoken",
+  "--out": "the result (default <dir>/measures.json): per film the verdict counts and shares of runtime, text items and edge density per frame, speech span and words a minute"
+ },
+ "per_film_folder": {
+  "shots.json": {"shots": [
+   {"n": 1, "start": 0.0, "end": 6.0, "frame": "frames/shot-01.jpg", "text_items": 0},
+   {"n": 2, "start": 6.0, "end": 9.5, "frame": "frames/shot-02.jpg", "on_screen_text": "Water | Domes | Gondolas | Lanterns"},
+   {"n": 3, "start": 9.5, "end": 14.0, "text_items": 1, "edge_density_pct": 7.5}
+  ]},
+  "verdicts.json": {"verdicts": [{"n": 1, "verdict": "carries"}, {"n": 2, "verdict": "carries"}, {"n": 3, "verdict": "competes"}]},
+  "whisper-noprompt.json": {"words": [{"w": "This", "s": 0.5, "e": 0.7}, {"w": "is", "s": 0.7, "e": 0.8}]},
+  "frames/": "one frame per shot, at its midpoint, named as in shots.json"
+ },
+ "notes": [
+  "A shot gives a frame (a path in the film's folder, whose edge density the tool measures with ffmpeg) or a precomputed edge_density_pct, and either text_items or on_screen_text (items separated by | , or ;). Count the names and labels on screen, not captions.",
+  "Verdicts are carries, partly or competes, from the per-shot test (uvk-film-audit), judged the same way for every film. A shot may carry its own verdict instead of verdicts.json, but then every shot must.",
+  "Mark shot boundaries by hand where a film crossfades: scene detection at a threshold of 0.25 found only 8 of one film's 35 transitions here (research/METHODS.md).",
+  "Drop the words heard after the last script word before measuring pace: Whisper loops phrases over music and silence."
+ ]
+}

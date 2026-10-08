@@ -1,0 +1,103 @@
+{
+ "about": "Act 1 context map of the final film (v7): the script's 26 points, timed from caption cues and classed by the first Act 1 line that needs each. First needed is relative to the abridged Act 1 reading texts (not included). Arithmetic on caption times, not a render.",
+ "points": 26,
+ "caption_cues": 51,
+ "by_class": {
+  "before_reading": {
+   "points": 6,
+   "seconds": 34.999,
+   "ids": [
+    "p06",
+    "p11",
+    "p12",
+    "p13",
+    "p14",
+    "p16"
+   ]
+  },
+  "could_be_fed_in_at_the_line": {
+   "points": 11,
+   "seconds": 66.878,
+   "ids": [
+    "p07",
+    "p08",
+    "p09",
+    "p10",
+    "p15",
+    "p17",
+    "p18",
+    "p19",
+    "p20",
+    "p21",
+    "p24"
+   ]
+  },
+  "framing": {
+   "points": 9,
+   "seconds": 58.881,
+   "ids": [
+    "p01",
+    "p02",
+    "p03",
+    "p04",
+    "p05",
+    "p22",
+    "p23",
+    "p25",
+    "p26"
+   ]
+  }
+ },
+ "could_be_fed_in_by_first_scene": {
+  "1.1": {
+   "points": 3,
+   "seconds": 28.937,
+   "ids": [
+    "p18",
+    "p21",
+    "p24"
+   ]
+  },
+  "1.2": {
+   "points": 4,
+   "seconds": 23.742,
+   "ids": [
+    "p07",
+    "p09",
+    "p10",
+    "p19"
+   ]
+  },
+  "1.3": {
+   "points": 4,
+   "seconds": 14.199,
+   "ids": [
+    "p08",
+    "p15",
+    "p17",
+    "p20"
+   ]
+  }
+ },
+ "seconds": {
+  "in_points": 160.758,
+  "between_points": 13.784,
+  "film": 174.542,
+  "film_without_could_be_fed_in_points": 107.664
+ },
+ "reading_texts_already_carry_all_or_part": {
+  "points": 18,
+  "before_reading": 6,
+  "could_be_fed_in": 10,
+  "framing": 2
+ },
+ "checks_set_with_the_script_that_ask_about_could_be_fed_in_points": {
+  "checks": 2,
+  "of": 3,
+  "ids": [
+   "p10",
+   "p19"
+  ]
+ },
+ "full_play_caveat": "Against the full play some points are needed earlier: Venice and the Cyprus wars are both named in 1.1."
+}

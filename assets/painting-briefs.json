@@ -1,0 +1,157 @@
+{
+ "about": "Prompts used to generate the scene paintings with tools/art/generate_paintings.py (gemini-3-pro-image-preview). prompt = style + the bible entries of the characters shown + subject; refs are the reference paintings sent with it. The original runs used the six base paintings before the finish pass; the published copies of those six are the finished versions.",
+ "style": "Paint in EXACTLY the same style as the attached reference paintings: a mature, richly detailed, painterly illustrated-book look with warm lantern light against cool dusk and night blues, fine costume embroidery, Venetian Renaissance architecture, dense believable background activity that rewards close looking. No text, lettering, speech balloons, borders, logos or watermarks. No gore, no depicted death, no weapons raised at anyone. Faces readable and dignified. Horizontal 16:9 composition with the main action clear.",
+ "bible": {
+  "Othello": "Othello: a Black man in his forties, the Venetian general; close-cropped dark hair, short beard flecked with grey, strong calm face; deep navy-black cloak and doublet with gold embroidery and a gold collar.",
+  "Desdemona": "Desdemona: a young Venetian noblewoman with long auburn-red hair worn up with pearls, pale skin, cream-and-gold brocade gown with full sleeves.",
+  "Iago": "Iago: a lean man about thirty-five, dark hair, stubble, a small scar through his left eyebrow, watchful narrow eyes; olive-green and brown hooded cloak over a black leather doublet. As the ensign he carries the general's red-and-gold banner.",
+  "Roderigo": "Roderigo: a round-faced young gentleman with curly dark-brown hair and an anxious expression, in a rich red damask cloak, holding leather gloves.",
+  "Cassio": "Cassio: a handsome young officer with light auburn-brown hair, clean-shaven, in a blue doublet with a leather belt and a sword; the lieutenant.",
+  "Emilia": "Emilia: a woman in her thirties with dark curly hair pinned up, in a plain brown servant's dress; Desdemona's attendant and Iago's wife.",
+  "Brabantio": "Brabantio: an elderly Venetian senator with grey hair and beard, in a black robe with a heavy gold chain of office."
+ },
+ "paintings": [
+  {
+   "id": "venice-senate",
+   "file": "venice-senate.jpg",
+   "chars": [
+    "Othello"
+   ],
+   "refs": [
+    "venice-establishing",
+    "venice-ranks"
+   ],
+   "subject": "The Venetian Senate in session in the Doge's palace at golden late afternoon: the Duke on a raised gilded seat under a great painted ceiling, rows of senators in red robes, clerks with ledgers and maps, merchants' chests of spices and silks being tallied at the side; Othello stands before them in the middle distance as the trusted general receiving his commission, respectful and composed. Through tall windows, the lagoon and ships. Power expressed as law, wealth and ceremony."
+  },
+  {
+   "id": "secret-wedding",
+   "file": "secret-wedding.jpg",
+   "chars": [
+    "Othello",
+    "Desdemona"
+   ],
+   "refs": [
+    "venice-love",
+    "venice-household"
+   ],
+   "subject": "A secret wedding at night in a small Venetian chapel lit only by candles: Othello and Desdemona stand close before an old priest, their hands joined over a book; one hooded witness; a gondola waits at the chapel's water door in the background with Venice glimmering beyond. Tender, hushed, a little dangerous."
+  },
+  {
+   "id": "roderigo-pays-iago",
+   "file": "roderigo-pays-iago.jpg",
+   "chars": [
+    "Roderigo",
+    "Iago"
+   ],
+   "refs": [
+    "act1-night-quay",
+    "venice-establishing"
+   ],
+   "subject": "Under a shadowed arcade on a Venetian quay at night, Roderigo presses a heavy purse of coins into Iago's open palm; Iago's face is half lit by a lantern, his eyes already looking elsewhere, a thin knowing half-smile; behind them, across the canal, a lit palace window and gondolas. Make the coins and the two men's hands the clear focus."
+  },
+  {
+   "id": "iago-and-the-masks",
+   "file": "iago-and-the-masks.jpg",
+   "chars": [
+    "Iago",
+    "Roderigo"
+   ],
+   "refs": [
+    "act1-night-quay"
+   ],
+   "subject": "Iago alone in the foreground of a narrow Venetian street at night, leaning toward the viewer out of deep shadow, one side of his face lit by a lantern and the other lost in darkness; on the wall beside him hang carnival masks; Roderigo waits a few steps back. The still, lamplit canal reflects Iago upside down. Two faces of one man without any literal second head."
+  },
+  {
+   "id": "honest-iago",
+   "file": "honest-iago.jpg",
+   "chars": [
+    "Othello",
+    "Iago",
+    "Desdemona",
+    "Cassio"
+   ],
+   "refs": [
+    "venice-ranks",
+    "venice-love"
+   ],
+   "subject": "A bright Venetian courtyard in morning sun: Othello clasps Iago's shoulder with open trust, smiling, as he hands Desdemona into Iago's care; Iago bows his head obediently, but his far hand behind his back is clenched; Cassio stands a few paces off with the sword at his side; soldiers load a galley at the quay beyond. Dramatic irony shown in posture only."
+  },
+  {
+   "id": "rampart-storm",
+   "file": "rampart-storm.jpg",
+   "chars": [
+    "Othello"
+   ],
+   "refs": [
+    "cyprus-dawn"
+   ],
+   "subject": "Othello alone on the Cyprus fortress rampart in a night storm: wind tears his cloak, lightning splits the sky over a black sea, torches gutter, the winged-lion banner strains at its pole. He grips the parapet and stares down, his face in doubt and pain. No other person. Tragedy as weather and solitude."
+  },
+  {
+   "id": "bedchamber",
+   "file": "bedchamber.jpg",
+   "chars": [],
+   "refs": [
+    "cyprus-dawn",
+    "venice-household"
+   ],
+   "subject": "A quiet bedchamber in the Cyprus fortress at night, seen from the doorway: a tall window with moonlight on the sea, bed curtains drawn and still, and on the windowsill four candles of which three have just gone out, their smoke rising, the last flame guttering. On the sill lies a white handkerchief embroidered with small strawberries. No people. Grief suggested, nothing shown."
+  },
+  {
+   "id": "lieutenant-and-ensign",
+   "file": "lieutenant-and-ensign.jpg",
+   "chars": [
+    "Othello",
+    "Cassio",
+    "Iago"
+   ],
+   "refs": [
+    "venice-ranks",
+    "cyprus-dawn"
+   ],
+   "subject": "The garrison yard of the Cyprus fortress at dawn: Othello at the centre, Cassio at his right hand wearing a lieutenant's sash and sword and receiving a sealed order, Iago one step behind holding the general's tall red-and-gold banner, his face unreadable; ranks of soldiers drilling behind, the sea and galleys beyond the walls. The three ranks must be visually clear and the men instantly distinguishable."
+  },
+  {
+   "id": "canal-shadow-and-light",
+   "file": "canal-shadow-and-light.jpg",
+   "chars": [
+    "Iago",
+    "Roderigo",
+    "Othello",
+    "Desdemona"
+   ],
+   "refs": [
+    "act1-night-quay",
+    "venice-love"
+   ],
+   "subject": "A Venetian canal at night: in the shadowed foreground on the steps Iago murmurs to Roderigo, who stares with jealous longing across the water; on the far side, lit by lanterns, Othello and Desdemona walk arm in arm, laughing, unaware. Dark side and lit side of the same frame, the water between them."
+  },
+  {
+   "id": "fortress-gate",
+   "file": "fortress-gate.jpg",
+   "chars": [
+    "Othello"
+   ],
+   "refs": [
+    "cyprus-dawn",
+    "venice-ranks"
+   ],
+   "subject": "Othello seen from behind, small against the huge stone gate of the Cyprus fortress at dusk, walking alone into its dark arch; his cloak and the torn banner above him both stir in the wind; an orange sliver of sunset on the sea behind. A great man entering shadow."
+  },
+  {
+   "id": "couple-and-shadow",
+   "file": "couple-and-shadow.jpg",
+   "chars": [
+    "Othello",
+    "Desdemona",
+    "Iago"
+   ],
+   "refs": [
+    "venice-love",
+    "venice-establishing"
+   ],
+   "subject": "Othello and Desdemona on the Venice balcony at first light, hands joined, looking at each other with complete trust, the domes of the city pale behind them; across the marble floor at their feet falls one long dark shadow of a man in a hooded cloak standing just out of frame. Love, and the change already arriving."
+  }
+ ],
+ "finish_prompt": "Repaint this exact image. Keep EVERYTHING the same: composition, framing, every figure and their pose, faces, costumes and colours of costume, architecture, objects and lighting direction. Change ONLY the painterly finish, as follows. Finish: a nineteenth-century engraved book illustration with a watercolour wash. Fine ink line work with cross-hatching for shadow, laid over transparent washes in a limited palette of sepia, indigo, oxblood and muted brass, on warm off-white laid paper with visible paper texture. Flat, quiet lighting, no gradients that look digital, no glow, no gloss. It should look printed in an old illustrated edition of the play. No text, no border, no watermark."
+}

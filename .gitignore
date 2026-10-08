@@ -1,0 +1,35 @@
+.DS_Store
+__pycache__/
+.venv/
+
+# keys and local settings
+.env
+*.env
+
+# Media and captions stay out by default: narration audio and caption files carry script text, and renders are
+# large and can be rebuilt. Add a "!" exception only for a file cleared for publication.
+*.mp4
+*.wav
+*.m4a
+*.mp3
+*.flac
+*.vtt
+!assets/score-sketch.m4a
+
+# regenerable render outputs (tools/film/render-narrated.js, tools/score/fit-score.js)
+*-full-mix.wav
+*-music-only.wav
+*-voice-only.wav
+qa-whisper/
+qa-segments/
+fitted-test/
+score/fitted/*/*-fitted-full.flac
+
+# sample media for the player, rebuilt by tools/player/make_sample_media.py
+player/media/
+
+# working material kept on this machine only
+/.local/
+
+# Claude Code local settings
+.claude/settings.local.json

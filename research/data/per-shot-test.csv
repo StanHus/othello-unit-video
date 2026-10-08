@@ -1,0 +1,7 @@
+version,unit,n,carries,partly,competes,carries_pct_runtime,share_of_runtime_pct,frames_with_text,frames,text_pct_runtime,text_items_median_in_text_frames,text_items_max
+stills_v5,line,22,12,6,4,41,,0,22,0,,
+hybrid_v6,line,22,22,0,0,,,33,51,51,6,17
+animated,shot,36,25,6,5,51,,3,36,,,2
+animated_narrator_on_screen,shot,11,2,4,5,,48,,,,,
+animated_narrator_off_screen,shot,25,23,2,0,,52,,,,,
+3d_code,shot,19,18,1,0,98,,18,19,95,9,27

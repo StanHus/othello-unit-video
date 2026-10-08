@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Othello · Narrated opening</title>
+<link rel="icon" href="data:,">
+<style>
+:root{--card:#fbf7ee;--ink:#26211b;--ink2:#5f564b;--line:#ddd2bf;--tint:#f1e9da;--accent:#7a2e24;--accent-dk:#5e2219;--gold:#a37f3f;--good:#2e6b45;--good-bg:#e5f0e7;--good-fg:#1f4a30;--bad:#a5442f;--bad-bg:#f7e4dd;--bad-fg:#5c2416;--stage:#101114;--on-stage:#ece6da;--muted:#a39d92;--edge:#3b3833;--ui:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;--serif:"Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--stage);color:var(--on-stage);font-family:var(--ui)}
+header.top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 20px;max-width:1640px;margin:0 auto;height:72px}
+.parts[hidden]{display:none!important}.parts{display:flex;gap:6px;margin-left:auto;margin-right:12px}.parts button{background:transparent;color:var(--muted);border:1px solid var(--edge);border-radius:4px;font:600 12px var(--ui);padding:6px 11px;cursor:pointer}.parts button[aria-current=true]{background:var(--on-stage);color:var(--stage);border-color:var(--on-stage)}.parts button:disabled{opacity:.4;cursor:not-allowed}
+header.top h1{font:400 21px var(--serif);margin:0;color:var(--on-stage)}
+header.top small{display:block;font:500 12px var(--ui);color:var(--muted);letter-spacing:.05em}
+.ghost{background:transparent;color:var(--on-stage);border:1px solid var(--edge);border-radius:4px;font:600 13px var(--ui);padding:8px 12px;cursor:pointer}
+.ghost:hover{border-color:var(--muted);color:#fff}
+.frame{position:relative;width:min(100%,1600px,calc((100vh - 96px) * 16 / 9));margin:0 auto;background:#000;aspect-ratio:16/9;overflow:hidden;border-radius:6px}
+.frame video{width:100%;height:100%;display:block;background:#000;transition:filter .3s ease}
+.frame.asking video{filter:blur(18px) brightness(.5) saturate(.8)} /* a check asks from memory: the plate behind it may show the answer */
+.frame video::cue{font-family:var(--ui);font-size:clamp(14px,1.6vw,24px);background:rgba(12,11,10,.74);color:#fff}
+.bar{position:absolute;left:0;right:0;bottom:0;display:flex;align-items:center;gap:12px;padding:10px 16px;background:linear-gradient(transparent,rgba(8,7,6,.8));z-index:4;transition:opacity .3s}
+.frame.idle .bar{opacity:0}.frame.idle{cursor:none}
+.bar button{background:transparent;border:0;color:#fff;font:600 14px var(--ui);cursor:pointer;padding:6px 8px;border-radius:4px;min-width:40px;min-height:36px}
+.bar button:focus-visible,.track:focus-visible{outline:3px solid #fff;outline-offset:2px}
+.bar .t{font:500 13px var(--ui);color:var(--on-stage);font-variant-numeric:tabular-nums;white-space:nowrap}
+.track{position:relative;flex:1;height:22px;cursor:pointer}
+.track .rail{position:absolute;left:0;right:0;top:9px;height:4px;border-radius:2px;background:rgba(255,255,255,.28)}
+.track .fill{position:absolute;left:0;top:9px;height:4px;border-radius:2px;background:#fff;width:0}
+.track .stop{position:absolute;top:5px;width:4px;height:12px;margin-left:-2px;border-radius:1px;background:#fff;box-shadow:0 0 0 2px var(--gold)}
+.track .stop.done{background:var(--gold);box-shadow:0 0 0 1px #fff}
+.big-play{position:absolute;inset:0;margin:auto;width:96px;height:64px;border-radius:6px;border:2px solid rgba(255,255,255,.85);background:rgba(122,46,36,.9);color:#fff;font:600 16px var(--ui);letter-spacing:.04em;cursor:pointer;z-index:2;box-shadow:0 10px 30px rgba(0,0,0,.45)}
+.big-play[hidden]{display:none}
+/* Check card: opens in a corner of the frame (data-corner bl or br); a bottom sheet under 720 px. */
+.check-card{position:absolute;left:24px;bottom:72px;width:min(372px,33vw);min-width:300px;max-height:calc(100% - 96px);overflow:auto;background:var(--card);border-radius:6px;border-top:4px solid var(--accent);padding:16px 18px 16px;display:flex;flex-direction:column;gap:10px;font-family:var(--ui);color:var(--ink);box-shadow:0 20px 50px -18px rgba(0,0,0,.7),0 0 0 1px rgba(0,0,0,.18);z-index:3;opacity:0;transform:translate(-12px,8px)}
+.check-card[hidden]{display:none}
+.check-card[data-corner=br]{left:auto;right:24px;transform:translate(12px,8px)}
+.check-card[data-corner=br].in{transform:none}
+.check-card.in{transition:opacity .32s cubic-bezier(.22,1,.36,1),transform .32s cubic-bezier(.22,1,.36,1);opacity:1;transform:none}
+.check-card.out{transition:opacity .18s ease-in,transform .18s ease-in;opacity:0;transform:translateY(6px)}
+.check-card .hd{display:flex;gap:12px;align-items:flex-start}
+.c-name{display:block;font:700 11px var(--ui);letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:5px}
+.stem{display:block;font:600 18px/1.35 var(--serif)}
+.count{margin-left:auto;font:600 11px var(--ui);letter-spacing:.1em;text-transform:uppercase;color:var(--ink2);white-space:nowrap}
+.said{display:flex;gap:10px;align-items:center;font:600 12px var(--ui);color:var(--ink2)}
+.said button.needs{background:var(--accent);color:#fff;border-color:var(--accent)}
+.said button{background:transparent;border:1px solid var(--line);border-radius:4px;padding:4px 9px;font:600 12px var(--ui);color:var(--accent);cursor:pointer}
+.said button:focus-visible,.opt:focus-visible,.foot .btn:focus-visible,.ow textarea:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.transcript{font:400 13px/1.5 var(--ui);color:var(--ink2);background:var(--tint);border-left:3px solid var(--line);border-radius:2px;padding:8px 10px;margin:0}
+.transcript[hidden]{display:none}
+.opts{display:flex;flex-direction:column;gap:6px}
+.opt{display:flex;align-items:center;gap:10px;width:100%;min-height:40px;padding:6px 10px;border:1px solid var(--line);border-radius:4px;background:#fff;color:var(--ink);font:500 14px/1.3 var(--ui);text-align:left;cursor:pointer;transition:border-color .12s,background .12s}
+.opt:hover:not(:disabled){border-color:var(--accent)}
+.opt .tick{width:24px;height:24px;border-radius:3px;display:grid;place-items:center;background:var(--tint);color:var(--ink2);font:700 12px var(--serif);flex:none}
+.opt.right{background:var(--good-bg);border-color:var(--good);cursor:default}.opt.right .tick{background:var(--good);color:#fff}
+.opt.wrong{background:var(--bad-bg);border-color:var(--bad);color:#8a7a72;cursor:default}.opt.wrong .tick{background:var(--bad);color:#fff}
+.opt:disabled:not(.right):not(.wrong){opacity:.6;cursor:default}
+.fb{margin:4px 2px 0;padding:6px 10px;border-radius:3px;font-size:13px;line-height:1.45;color:var(--bad-fg);background:var(--bad-bg);animation:fbin .16s ease-out}
+.fb.good{color:var(--good-fg);background:var(--good-bg)}
+@keyframes fbin{from{opacity:0;transform:translateY(4px)}}
+.ow label{display:block;font:600 12px var(--ui);color:var(--ink2);margin-bottom:4px;letter-spacing:.02em}
+.ow textarea{width:100%;min-height:76px;resize:vertical;border:1px solid var(--line);border-radius:4px;padding:8px 10px;font:400 14px/1.45 var(--ui);color:var(--ink);background:#fff}
+.ow.saved,.ow .saved{font:400 13px/1.45 var(--ui);color:var(--ink);background:var(--tint);border-left:3px solid var(--gold);border-radius:2px;padding:8px 10px;margin:0}
+.ow.saved b,.ow .saved b{display:block;font:700 11px var(--ui);letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:2px}
+.foot{display:flex;justify-content:space-between;gap:8px;align-items:center}
+.foot .btn{min-height:38px;padding:0 16px;border:0;border-radius:4px;background:var(--accent);color:#fff;font:600 14px var(--ui);cursor:pointer;margin-left:auto}
+.foot .btn:hover{background:var(--accent-dk)}
+.foot .btn.light{background:transparent;color:var(--accent);border:1px solid var(--line);margin-left:0}
+.foot .btn:disabled{opacity:.45;cursor:default}
+.notes{max-width:min(1600px,calc((100vh - 96px) * 16 / 9));margin:14px auto 40px;padding:0 4px;color:var(--muted);font:400 13px/1.55 var(--ui)}
+.notes b{color:var(--on-stage)}
+@media (max-width:720px){
+  .parts{order:3;width:100%;margin:6px 0 0}header.top{flex-wrap:wrap}
+  header.top{padding:12px 16px;height:auto}
+  .frame{border-radius:0;width:100%}
+  .check-card{position:fixed;left:0;right:0;bottom:0;width:auto;min-width:0;max-height:62vh;border-radius:6px 6px 0 0;padding:14px 16px calc(14px + env(safe-area-inset-bottom));z-index:20}
+  .stem{font-size:16px}.foot .btn{flex:1}
+  .bar{gap:6px;padding:6px 8px}.bar .t{font-size:11px}
+  .notes{padding:0 16px}
+}
+@media (prefers-reduced-motion:reduce){.frame video{transition:none}.check-card,.check-card.in,.check-card.out{transition:opacity .12s;transform:none}.fb{animation:none}}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+</style>
+</head>
+<body>
+<header class="top">
+  <div><h1 id="title">Othello · Narrated opening</h1><small id="partlabel"></small></div>
+  <nav class="parts" id="parts" aria-label="Parts"></nav>
+  <button class="ghost" id="restart" type="button">Start again</button>
+</header>
+<main>
+  <div class="frame" id="frame">
+    <video id="film" playsinline preload="metadata">
+      <track id="cc" kind="subtitles" srclang="en" label="English" default>
+    </video>
+    <button class="big-play" id="bigplay" type="button" aria-label="Play the opening">Play</button>
+    <aside class="check-card" id="card" role="dialog" aria-modal="false" aria-labelledby="stem" hidden>
+      <div class="hd">
+        <div><span class="c-name">Check</span><b class="stem" id="stem"></b></div>
+        <span class="count" id="count"></span>
+      </div>
+      <div class="said"><button type="button" id="hear">Hear again</button><button type="button" id="showsaid" aria-expanded="false">Show the words</button></div>
+      <p class="transcript" id="transcript" hidden></p>
+      <div id="body"></div>
+      <div class="foot" id="foot"></div>
+    </aside>
+    <div class="bar" id="bar">
+      <button type="button" id="pp" aria-label="Play">Play</button>
+      <div class="track" id="track" role="slider" tabindex="0" aria-label="Position in the opening" aria-valuemin="0" aria-valuemax="0" aria-valuenow="0"><div class="rail"></div><div class="fill" id="fill"></div></div>
+      <span class="t" id="time">0:00 / 0:00</span>
+      <button type="button" id="ccbtn" aria-pressed="true">CC</button>
+      <button type="button" id="fs" aria-label="Full screen">Full</button>
+    </div>
+  </div>
+  <p class="notes"><b>How it works.</b> The film stops at each check and continues only after a right answer; you cannot skip past a check you have not answered. Your own-words answers are kept, never marked. Add <code>?parts</code> to the address to watch the film in parts. Answers and position stay in this browser.</p>
+</main>
+<audio id="voice" preload="auto"></audio>
+<script src="content/checks.js"></script>
+<script src="content/checks-parts.js"></script>
+<script>
+(() => {
+  const Q = new URLSearchParams(location.search), C = Q.has('parts') ? window.OTHELLO_FILM_CHECKS_PARTS : window.OTHELLO_FILM_CHECKS, $ = id => document.getElementById(id);
+  const film = $('film'), frame = $('frame'), card = $('card'), voice = $('voice');
+  if (C.poster) film.poster = C.poster;
+  if (C.title) { document.title = C.title; $('title').textContent = C.title; }
+  const SUBTITLE = C.subtitle || '';
+  const parts = C.parts, allStops = parts.flatMap(p => p.stops);
+  const empty = () => ({ done: {}, attempts: {}, ownWords: {}, probe: {}, part: 0, position: 0, finished: {} });
+  let store;
+  try { store = JSON.parse(localStorage.getItem(C.storageKey)) || empty(); } catch (e) { store = empty(); }
+  const save = () => { try { localStorage.setItem(C.storageKey, JSON.stringify(store)); } catch (e) {} };
+  let askT = 0, open = null, step = 0, guarding = false, pi = Math.min(store.part || 0, parts.length - 1), autoplayNext = false, ccWanted = true;
+  const P = () => parts[pi], stops = () => P().stops;
+  const fmt = s => { s = Math.max(0, Math.floor(s || 0)); return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`; };
+  const nextUndone = () => stops().find(s => !store.done[s.id]);
+  const partUnlocked = i => parts.slice(0, i).every(p => p.stops.every(s => store.done[s.id]) && store.finished[p.part]);
+  function tabs() {
+    $('parts').innerHTML = parts.map((p, i) => `<button type="button" data-p="${i}" aria-current="${i === pi}" ${partUnlocked(i) ? '' : 'disabled'} title="${p.title}">Part ${i + 1}</button>`).join('');
+    $('partlabel').textContent = parts.length > 1 ? `Part ${pi + 1} of ${parts.length} · ${P().title}` : SUBTITLE;
+    $('parts').hidden = parts.length < 2;
+  }
+  $('parts').addEventListener('click', e => { const b = e.target.closest('[data-p]'); if (!b || b.disabled || open !== null) return; load(+b.dataset.p, 0, false); });
+  function load(i, pos, autoplay) {
+    pi = i; store.part = i; store.position = pos || 0; save();
+    film.src = P().film; [...film.querySelectorAll('track')].forEach(t => t.remove());
+    const tr = document.createElement('track'); tr.kind = 'subtitles'; tr.srclang = 'en'; tr.label = 'English'; tr.default = true; tr.src = P().captions; film.appendChild(tr);
+    tr.addEventListener('load', liftCues);
+    autoplayNext = !!autoplay; tabs();
+  }
+  function liftCues() { const t = film.textTracks[0]; if (!t) return; t.mode = ccWanted && open === null ? 'showing' : 'hidden'; [...(t.cues || [])].forEach(c => { c.snapToLines = true; c.line = -4; }); }
+  function drawStops() {
+    const tr = $('track'); tr.querySelectorAll('.stop').forEach(n => n.remove());
+    if (!film.duration) return;
+    stops().forEach(s => { const d = document.createElement('span'); d.className = 'stop' + (store.done[s.id] ? ' done' : ''); d.style.left = (100 * s.at / film.duration) + '%'; d.title = 'Check'; tr.appendChild(d); });
+  }
+  function ui() {
+    const d = film.duration || 0, t = film.currentTime;
+    $('fill').style.width = d ? (100 * t / d) + '%' : 0;
+    $('time').textContent = `${fmt(t)} / ${fmt(d)}`;
+    $('track').setAttribute('aria-valuemax', Math.round(d)); $('track').setAttribute('aria-valuenow', Math.round(t)); $('track').setAttribute('aria-valuetext', `${fmt(t)} of ${fmt(d)}`);
+    const playing = !film.paused && !film.ended;
+    $('pp').textContent = playing ? 'Pause' : 'Play'; $('pp').setAttribute('aria-label', playing ? 'Pause' : 'Play');
+    $('bigplay').hidden = playing || open !== null;
+    $('bigplay').textContent = t > 0.5 && !film.ended ? 'Play' : 'Play'; $('bigplay').setAttribute('aria-label', t > 0.5 ? 'Continue the opening' : 'Play the opening');
+  }
+  function tick() {
+    if (open === null && !film.paused) {
+      const n = nextUndone();
+      if (n && film.currentTime >= n.at) { film.pause(); film.currentTime = n.at; show(stops().indexOf(n)); }
+      store.position = film.currentTime;
+    }
+    ui(); requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick); setInterval(save, 3000);
+  film.addEventListener('seeking', () => {
+    if (guarding || open !== null) return;
+    const n = nextUndone();
+    if (n && film.currentTime > n.at + 0.05) { guarding = true; film.currentTime = Math.max(0, n.at - 0.4); guarding = false; }
+  });
+  film.addEventListener('loadedmetadata', () => {
+    drawStops(); liftCues();
+    const n = nextUndone(), resume = Math.min(store.position || 0, n ? n.at - 0.5 : film.duration);
+    if (resume > 1) film.currentTime = resume;
+    if (autoplayNext) { autoplayNext = false; play(); }
+    ui();
+  });
+  film.addEventListener('play', ui); film.addEventListener('pause', ui);
+  film.addEventListener('ended', () => {
+    store.finished[P().part] = true; store.position = 0; save();
+    if (pi < parts.length - 1) { load(pi + 1, 0, true); } else { tabs(); ui(); }
+  });
+  let voiceUnlocked = false;
+  const SILENCE = 'data:audio/wav;base64,UklGRuQSAABXQVZFZm10IBAAAAABAAEAwF0AAIC7AAACABAAZGF0YcASAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=';
+  function unlockVoice() {
+    if (voiceUnlocked) return; voiceUnlocked = true;
+    try {
+      voice.src = SILENCE; voice.dataset.unlock = '1';
+      const p = voice.play();
+      if (p) p.then(() => { if (voice.dataset.unlock === '1') voice.pause(); }).catch(() => { if (voice.dataset.unlock === '1') voiceUnlocked = false; });
+    } catch (e) { voiceUnlocked = false; }
+  }
+  document.addEventListener('pointerdown', unlockVoice, true); document.addEventListener('keydown', unlockVoice, true);
+  function play() { if (open !== null) return; unlockVoice(); film.play().catch(() => { $('bigplay').hidden = false; }); }
+  $('bigplay').onclick = play;
+  $('pp').onclick = () => film.paused ? play() : film.pause();
+  film.addEventListener('click', () => { if (open === null) film.paused ? play() : film.pause(); });
+  function seekTo(x) { const r = $('track').getBoundingClientRect(); film.currentTime = Math.max(0, Math.min(1, (x - r.left) / r.width)) * (film.duration || 0); }
+  $('track').addEventListener('pointerdown', e => { if (open !== null) return; seekTo(e.clientX); const mv = ev => seekTo(ev.clientX), up = () => { removeEventListener('pointermove', mv); removeEventListener('pointerup', up); }; addEventListener('pointermove', mv); addEventListener('pointerup', up); });
+  $('track').addEventListener('keydown', e => { if (open !== null) return; if (e.key === 'ArrowRight') { film.currentTime += 5; e.preventDefault(); } if (e.key === 'ArrowLeft') { film.currentTime -= 5; e.preventDefault(); } });
+  document.addEventListener('keydown', e => { if (e.target.closest('textarea,button,.track')) return; if (e.key === ' ' || e.key === 'k') { e.preventDefault(); if (open === null) film.paused ? play() : film.pause(); } });
+  $('ccbtn').onclick = () => { ccWanted = !ccWanted; $('ccbtn').setAttribute('aria-pressed', ccWanted); liftCues(); };
+  $('fs').onclick = () => document.fullscreenElement ? document.exitFullscreen() : frame.requestFullscreen?.();
+  let idleT; frame.addEventListener('pointermove', () => { frame.classList.remove('idle'); clearTimeout(idleT); idleT = setTimeout(() => { if (!film.paused) frame.classList.add('idle'); }, 2500); });
+  $('restart').onclick = () => { if (!confirm('Start the opening again? Your answers in this browser will be cleared.')) return; store = empty(); save(); closeCard(false); load(0, 0, false); };
+
+  function speak(src) {
+    voice.dataset.unlock = '0'; voice.muted = false; voice.src = src; voice.currentTime = 0;
+    const h = $('hear'); h.textContent = 'Hear again'; h.classList.remove('needs');
+    const p = voice.play(); if (p) p.catch(() => { h.textContent = '\u25B6 Hear the question'; h.classList.add('needs'); });
+  }
+  function log(s, entry) { const a = store.attempts[s.id] || (store.attempts[s.id] = []); a.push({ ...entry, t: new Date().toISOString() }); save(); }
+  function show(i) {
+    open = i; step = 0; const s = stops()[i];
+    card.dataset.corner = s.corner || 'bl';
+    film.textTracks[0] && (film.textTracks[0].mode = 'hidden');
+    $('count').textContent = `Check ${allStops.indexOf(s) + 1} · ${allStops.length}`;
+    $('transcript').textContent = s.say; $('transcript').hidden = true; $('showsaid').setAttribute('aria-expanded', 'false');
+    render();
+    card.hidden = false; card.classList.remove('out'); requestAnimationFrame(() => card.classList.add('in'));
+    frame.classList.remove('idle'); frame.classList.add('asking');
+    clearTimeout(askT); askT = setTimeout(() => speak(s.ask), 140);
+    setTimeout(() => (card.querySelector('.opt,textarea') || $('hear')).focus({ preventScroll: true }), 60);
+  }
+  $('hear').onclick = () => speak(stops()[open].ask);
+  $('showsaid').onclick = () => { const t = $('transcript'); t.hidden = !t.hidden; $('showsaid').setAttribute('aria-expanded', String(!t.hidden)); };
+  const esc = t => String(t).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  function render() {
+    const s = stops()[open], st = s.steps[step], multi = s.steps.filter(x => x.kind === 'choice').length > 1;
+    $('stem').textContent = st.stem;
+    const body = $('body'), foot = $('foot'); foot.innerHTML = '';
+    const replay = `<button class="btn light" type="button" data-act="replay">Hear the scene again</button>`;
+    if (st.kind === 'own_words' || st.kind === 'probe') {
+      const bag = st.kind === 'probe' ? (store.probe = store.probe || {}) : store.ownWords, prev = bag[s.id];
+      const back = st.kind === 'probe' && store.ownWords[s.id] ? `<p class="ow saved" style="margin:0 0 6px"><b>Your words</b>${esc(store.ownWords[s.id])}</p>` : '';
+      body.innerHTML = back + `<div class="ow"><label for="ow">${st.prompt}</label><textarea id="ow" maxlength="600" placeholder="Write a sentence or two.">${prev ? esc(prev) : ''}</textarea></div><div id="owmsg" aria-live="polite"></div>`;
+      foot.innerHTML = replay + `<button class="btn" type="button" data-act="saveow">Save my answer</button>`;
+      return;
+    }
+    const why = store.probe && store.probe[s.id] ? `<p class="ow saved" style="margin:0 0 4px"><b>Why</b>${esc(store.probe[s.id])}</p>` : '';
+    const own = s.steps[0].kind === 'own_words' && store.ownWords[s.id] ? `<p class="ow saved" style="margin:0 0 4px"><b>Your words</b>${esc(store.ownWords[s.id])}</p>` + why : '';
+    body.innerHTML = own + `<div class="opts" role="group" aria-label="Answer options${multi ? ', part ' + (step + 1) + ' of ' + s.steps.length : ''}">` +
+      st.options.map((o, k) => `<div><button class="opt" type="button" data-k="${k}"><span class="tick" aria-hidden="true">${'ABCD'[k]}</span><span>${esc(o)}</span></button></div>`).join('') + `</div>`;
+    foot.innerHTML = replay;
+  }
+  function readable(text) {
+    const t = text.trim(), words = t.split(/\s+/).filter(Boolean);
+    if (words.length < 4) return 'Write a little more: at least a short sentence.';
+    if (/(.)\1{3,}/i.test(t)) return 'I can’t read that as an answer yet. Write a sentence in your own words.';
+    const voweled = words.filter(w => /[aeiouy]/i.test(w) && /^["(“]?[a-z’'-]+[.,;:!?)"”]*$/i.test(w));
+    const common = /\b(the|a|an|and|or|but|of|to|in|on|at|for|with|is|are|was|were|be|it|he|she|they|we|i|you|that|this|not|do|has|have)\b/i;   // common English function words
+    if (voweled.length / words.length < 0.75 || !common.test(t)) return 'I can’t read that as an answer yet. Write a sentence in your own words.';
+    return null;
+  }
+  card.addEventListener('click', e => {
+    if (open === null) return; const s = stops()[open], st = s.steps[step];
+    const act = e.target.closest('[data-act]')?.dataset.act;
+    if (act === 'replay') { voice.pause(); closeCard(false); film.currentTime = s.sceneStart; play(); return; }
+    if (act === 'saveow') {
+      const v = $('ow').value, why = readable(v);
+      if (why) { $('owmsg').innerHTML = `<p class="fb">${why}</p>`; $('ow').focus(); return; }
+      const bag = st.kind === 'probe' ? (store.probe = store.probe || {}) : store.ownWords;
+      bag[s.id] = v.trim(); log(s, { step, kind: st.kind, text: v.trim() });
+      step++; render();
+      if (s.steps[step].kind === 'probe' && s.steps[step].audio) { clearTimeout(askT); speak(s.steps[step].audio); }
+      (card.querySelector('.opt') || card.querySelector('textarea'))?.focus(); return;
+    }
+    if (act === 'next') { step++; render(); card.querySelector('.opt')?.focus(); return; }
+    if (act === 'continue') { closeCard(true); return; }
+    const b = e.target.closest('.opt'); if (!b || b.disabled) return;
+    clearTimeout(askT);
+    const k = +b.dataset.k, right = k === st.answer;
+    log(s, { step, choice: st.options[k], correct: right });
+    card.querySelector('.fb')?.remove(); b.disabled = true; b.classList.add(right ? 'right' : 'wrong');
+    b.insertAdjacentHTML('afterend', `<p class="fb${right ? ' good' : ''}" role="status">${esc(st.feedback[k])}</p>`);
+    if (!right) return;
+    card.querySelectorAll('.opt').forEach(o => o.disabled = true);
+    const last = step === s.steps.length - 1;
+    $('foot').innerHTML = last ? `<button class="btn" type="button" data-act="continue">Continue</button>` : `<button class="btn" type="button" data-act="next">Next</button>`;
+    if (last) speak(s.correct);
+    $('foot').querySelector('.btn').focus();
+  });
+  function closeCard(markDone) {
+    if (open === null) return; const s = stops()[open];
+    if (markDone) { store.done[s.id] = true; save(); drawStops(); tabs(); }
+    card.classList.replace('in', 'out');
+    setTimeout(() => { card.hidden = true; card.classList.remove('out'); }, 180);
+    open = null; frame.classList.remove('asking'); liftCues(); voice.pause();
+    if (markDone) play();
+  }
+  load(pi, store.position, false);
+})();
+</script>
+</body>
+</html>
