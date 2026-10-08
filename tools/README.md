@@ -20,20 +20,48 @@ defaults to the public Gemini API; `GENAI_AUTH_HEADER` names the header a proxy 
 key or an endpoint into its outputs. Models can be changed with `TTS_MODEL`, `TTS_VOICE`, `TTS_STYLE`,
 `TRANSCRIBE_MODEL`, `IMAGE_MODEL` and `JUDGE_MODELS`.
 
-## Order of use
+## Commands
 
-1. `narration/generate_takes.py`: one TTS take per scene, with provenance.
-2. `narration/verify_take.py`: transcribe each take with no script and word-diff it; regenerate any take that differs.
-3. Optional: `narration/judge_takes.py` to compare auditions blind; `narration/tighten_clips.py` to cap pauses.
-4. `narration/align_words.py --all`: word times for every clip, mapped onto the exact script tokens.
-5. `score/generate-score.js`: the score sketch, and the cue sheet that binds music moves to spoken phrases.
-6. `art/generate_paintings.py`, `art/finish_paintings.py`, `plates/build_plates.py`: paintings for story lines,
-   labelled plates for structural lines; `art/export_web_copies.py` makes the published copies.
-7. `film/render-narrated.js`: timeline, captions, fitted score (through `score/fit-score.js`), ducked mix, picture and QA.
-8. `player/build_parts.py`: the film and its parts for the player, with the checks placed at measured scene ends;
-   `player/serve.js` to run it.
-9. `review/measure_fidelity.py`, `review/measure_screen.py`: comparison measures.
-10. Optional: `library/library.py` to catalogue the project's documents and media, with curated cards and topic pages.
+Write the script as a recording manifest (format under [Input formats](#input-formats); a sample is
+`kit/templates/script/manifest.example.json`). The player needs its `parts` list: a film with no parts has one part
+holding every scene. Keep the project outside this repository and run every command from the repository root. Below,
+`<project>` is the project folder, `<manifest>` the manifest and `<takes>` the narration folder,
+`<project>/narration/takes/v01`.
+
+```sh
+# script: prove the manifest is the script, word for word
+python3 tools/review/measure_fidelity.py --reference <project>/sources/script.txt --film manifest=<manifest> \
+  --out <project>/script/v01/fidelity.json
+
+# narration: audition by ear (the judges only assist), generate, verify blind twice, time every word
+python3 tools/narration/generate_takes.py --manifest <manifest> --only vo_01 --model <model> --voice <voice> \
+  --out <project>/narration/auditions/<YYYY-MM-DD-slug>/<model>-<voice>
+python3 tools/narration/judge_takes.py --takes <project>/narration/auditions/<YYYY-MM-DD-slug> --clip vo_01 \
+  --reference <manifest> --out <project>/narration/auditions/<YYYY-MM-DD-slug>/judgments.json
+python3 tools/narration/generate_takes.py --manifest <manifest> --out <takes> --model <model> --voice <voice>
+python3 tools/narration/verify_take.py --manifest <manifest> vo_01 <takes>/vo_01.wav
+python3 tools/narration/align_words.py --manifest <manifest> --no-prompt vo_01 <takes>/vo_01.wav
+python3 tools/narration/align_words.py --manifest <manifest> --narration <takes> --all
+
+# pictures and score: compare every repaint with its source by eye
+python3 tools/art/generate_paintings.py --briefs <project>/art/briefs.json --refs-dir <project>/art/refs --out <project>/art
+python3 tools/art/finish_paintings.py --out <project>/art/finished <project>/art/*.jpg
+python3 tools/plates/build_plates.py --content <project>/film/v01/plate-content.json --out <project>/film/v01
+node tools/score/generate-score.js --out <project>/score/sketch --manifest <manifest> \
+  --anchors <project>/score/anchors.json --cue-sheet <project>/score/cue-sheets/v01.json
+
+# film, QA and player
+node tools/film/render-narrated.js --manifest <manifest> --storyboard <project>/film/v01/storyboard.json \
+  --cue-sheet <project>/score/cue-sheets/v01.json --narration <takes> --alignment <takes>/alignment \
+  --art-dir <project>/art/finished --out <project>/film/v01/render
+node tools/film/render-narrated.js --stage qa --out <project>/film/v01/render --manifest <manifest>
+mkdir -p <project>/player && cp player/index.html <project>/player/
+python3 tools/player/build_parts.py --film-dir <project>/film/v01/render --parts <manifest> \
+  --checks <project>/checks/checks.json --player-dir <project>/player --storage-tag v01
+node tools/player/serve.js 8780 <project>/player    # HTTP Range support, so seeking works
+```
+
+Each tool documents its inputs at the top of the file.
 
 ## What each tool does
 
